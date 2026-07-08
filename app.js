@@ -1,8 +1,8 @@
 import express from "express";
 import env from "dotenv";
-import { customersRoute } from "./routes/customerRouter.js";
-import { ordersRoute } from "./routes/orderRouter.js";
-import { productsRoute } from "./routes/productRouter.js";
+import { customersRoute } from "./src/routes/customerRouter.js";
+import { ordersRoute } from "./src/routes/orderRouter.js";
+import { productsRoute } from "./src/routes/productRouter.js";
 import e from "express";
 
 const app = express();
