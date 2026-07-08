@@ -1,0 +1,122 @@
+[
+    {
+        "id": 1,
+        "name": "Professional Running Shoes",
+        "price": 450,
+        "stock": 15
+    },
+    {
+        "id": 2,
+        "name": "Professional Soccer Ball",
+        "price": 120,
+        "stock": 50
+    },
+    {
+        "id": 3,
+        "name": "5kg Dumbbells",
+        "price": 80,
+        "stock": 20
+    },
+    {
+        "id": 4,
+        "name": "Non-Slip Yoga Mat",
+        "price": 150,
+        "stock": 30
+    },
+    {
+        "id": 5,
+        "name": "Sports Water Bottle",
+        "price": 45,
+        "stock": 100
+    },
+    {
+        "id": 6,
+        "name": "Dri-Fit T-Shirt",
+        "price": 90,
+        "stock": 40
+    },
+    {
+        "id": 7,
+        "name": "Running Shorts",
+        "price": 110,
+        "stock": 35
+    },
+    {
+        "id": 8,
+        "name": "Gym Backpack",
+        "price": 200,
+        "stock": 12
+    },
+    {
+        "id": 9,
+        "name": "Jump Rope",
+        "price": 30,
+        "stock": 60
+    },
+    {
+        "id": 10,
+        "name": "Tennis Racket",
+        "price": 350,
+        "stock": 8
+    },
+    {
+        "id": 11,
+        "name": "Tennis Balls (Pack)",
+        "price": 50,
+        "stock": 40
+    },
+    {
+        "id": 12,
+        "name": "Smart Fitness Watch",
+        "price": 700,
+        "stock": 5
+    },
+    {
+        "id": 13,
+        "name": "Resistance Bands",
+        "price": 60,
+        "stock": 25
+    },
+    {
+        "id": 14,
+        "name": "Training Gloves",
+        "price": 75,
+        "stock": 18
+    },
+    {
+        "id": 15,
+        "name": "Knee Support Brace",
+        "price": 95,
+        "stock": 14
+    },
+    {
+        "id": 16,
+        "name": "Swimming Goggles",
+        "price": 85,
+        "stock": 20
+    },
+    {
+        "id": 17,
+        "name": "Home Exercise Bike",
+        "price": 1200,
+        "stock": 3
+    },
+    {
+        "id": 18,
+        "name": "Sweat-Absorbing Headband",
+        "price": 25,
+        "stock": 80
+    },
+    {
+        "id": 19,
+        "name": "Microfiber Towel",
+        "price": 40,
+        "stock": 45
+    },
+    {
+        "id": 20,
+        "name": "Basketball",
+        "price": 130,
+        "stock": 22
+    }
+]
