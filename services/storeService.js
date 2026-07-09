@@ -3,10 +3,12 @@ import {
     writeData,
     getCustomerById,
     getProductById,
+    createNewCustomer,
     PRODUCTS,
     CUSTOMERS,
     ORDERS,
 } from "../utils/dataHandling.js";
+import { validateCartStock } from "../utils/validator.js";
 import HttpError from "../utils/httpError.js";
 
 export async function getFilteredProducts(query) {
@@ -136,11 +138,20 @@ export async function checkoutCart(body) {
     const allProducts = await readData(PRODUCTS);
     const allOrders = (await readData(ORDERS)) || [];
     let customer = allCustomers.find((c) => c.customerId === customerId);
+    let isNewCustomer = false;
     if (!customer) {
         customer = await createNewCustomer(allCustomers, customerId);
+        isNewCustomer = true;
     }
     if (!customer.cart || customer.cart.length === 0) {
-        throw new HttpError("Checkout rejected: Your cart is empty.", 400);
+        if (isNewCustomer) {
+            await writeData(CUSTOMERS, JSON.stringify(allCustomers, null, 4));
+            throw new HttpError(
+                `Customer ID: ${customerId} was successfully created with your initial balance. However, your cart is empty. Please add items to your cart before checking out.`,
+                400,
+            );
+        }
+        throw new HttpError("Checkout rejected: Cart is empty.", 400);
     }
     validateCartStock(customer.cart, allProducts);
     const { orderTotal, itemsToBuy } = calculateCartTotal(
@@ -161,8 +172,8 @@ export async function checkoutCart(body) {
         allOrders,
     );
     allOrders.push(newOrder);
-    await writeData(CUSTOMERS, allCustomers);
-    await writeData(PRODUCTS, allProducts);
-    await writeData(ORDERS, allOrders);
+    await writeData(CUSTOMERS, JSON.stringify(allCustomers, null, 4));
+    await writeData(PRODUCTS, JSON.stringify(allProducts, null, 4));
+    await writeData(ORDERS, JSON.stringify(allOrders, null, 4));
     return newOrder;
 }

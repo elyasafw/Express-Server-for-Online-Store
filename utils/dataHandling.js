@@ -39,8 +39,7 @@ export async function getProductById(id) {
     return product;
 }
 
-export async function createNewCustomer(customerId) {
-    const allCustomers = await readData(CUSTOMERS);
+export async function createNewCustomer(allCustomers, customerId) {
     const initialBalance = Number(process.env.INITIAL_BALANCE) || 1000;
     const customer = {
         customerId: customerId,
@@ -49,6 +48,5 @@ export async function createNewCustomer(customerId) {
         createdAt: new Date().toISOString(),
     };
     allCustomers.push(customer);
-    await writeData(CUSTOMERS, JSON.stringify(allCustomers, null, 4));
     return customer;
 }
