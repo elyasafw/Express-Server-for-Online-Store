@@ -1,6 +1,6 @@
 [
     {
-        "id": "ORD-2026-001",
+        "id": 100,
         "customerId": "CUST-101",
         "items": [
             {
@@ -18,7 +18,7 @@
         "createdAt": "2026-06-01T14:30:00Z"
     },
     {
-        "id": "ORD-2026-002",
+        "id": 101,
         "customerId": "CUST-105",
         "items": [
             {
@@ -31,7 +31,7 @@
         "createdAt": "2026-06-10T09:15:00Z"
     },
     {
-        "id": "ORD-2026-003",
+        "id": 102,
         "customerId": "CUST-106",
         "items": [
             {
@@ -49,7 +49,7 @@
         "createdAt": "2026-06-15T18:22:00Z"
     },
     {
-        "id": "ORD-2026-004",
+        "id": 103,
         "customerId": "CUST-109",
         "items": [
             {
@@ -67,7 +67,7 @@
         "createdAt": "2026-06-28T11:05:00Z"
     },
     {
-        "id": "ORD-2026-005",
+        "id": 104,
         "customerId": "CUST-110",
         "items": [
             {
