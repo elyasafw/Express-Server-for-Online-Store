@@ -7,6 +7,7 @@ import {
     CUSTOMERS,
     ORDERS,
 } from "../utils/dataHandling.js";
+import HttpError from "../utils/httpError.js";
 
 export async function getFilteredProducts(query) {
     const allProducts = await readData(PRODUCTS);
@@ -61,4 +62,28 @@ export async function addProductToCart(body) {
             break;
         }
     }
+}
+
+export async function deleteProductFromCart(body, param) {
+    const customer = await getCustomerById(body.customerId);
+    const allCustomers = await readData(CUSTOMERS);
+    for (const cust of allCustomers) {
+        if (cust.customerId === customer.customerId) {
+            const isProductInCart = cust.cart.some(
+                (product) => product.productId === Number(param.productId),
+            );
+            if (!isProductInCart) {
+                throw new HttpError(
+                    `Product ID: ${param.productId} Not Found In Cart`,
+                    404,
+                );
+            }
+            cust.cart = cust.cart.filter(
+                (product) => product.productId !== Number(param.productId),
+            );
+            console.log(cust);
+            break;
+        }
+    }
+    await writeData(CUSTOMERS, JSON.stringify(allCustomers, null, 4));
 }
