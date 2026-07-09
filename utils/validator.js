@@ -16,7 +16,7 @@ export function validateQueryKeys(query) {
     return queryKeys.every((key) => ALLOWED_KEYS.includes(key));
 }
 
-function validateCartStock(cart, allProducts) {
+export function validateCartStock(cart, allProducts) {
     for (const cartItem of cart) {
         const product = allProducts.find((p) => p.id === cartItem.productId);
 
