@@ -1,1 +1,122 @@
-[]
+[
+    {
+        "customerId": "CUST-101",
+        "balance": 2500.50,
+        "cart": [
+            {
+                "productId": 1,
+                "quantity": 2
+            },
+            {
+                "productId": 4,
+                "quantity": 1
+            }
+        ],
+        "createdAt": "2026-01-15T08:30:00Z"
+    },
+    {
+        "customerId": "CUST-102",
+        "balance": 120.00,
+        "cart": [
+            {
+                "productId": 2,
+                "quantity": 5
+            }
+        ],
+        "createdAt": "2026-02-10T14:15:00Z"
+    },
+    {
+        "customerId": "CUST-103",
+        "balance": 0.00,
+        "cart": [],
+        "createdAt": "2026-03-01T09:00:00Z"
+    },
+    {
+        "customerId": "CUST-104",
+        "balance": 5450.00,
+        "cart": [
+            {
+                "productId": 10,
+                "quantity": 1
+            },
+            {
+                "productId": 12,
+                "quantity": 3
+            },
+            {
+                "productId": 5,
+                "quantity": 1
+            }
+        ],
+        "createdAt": "2026-03-22T18:45:00Z"
+    },
+    {
+        "customerId": "CUST-105",
+        "balance": 890.75,
+        "cart": [
+            {
+                "productId": 3,
+                "quantity": 2
+            }
+        ],
+        "createdAt": "2026-04-05T11:20:00Z"
+    },
+    {
+        "customerId": "CUST-106",
+        "balance": 430.00,
+        "cart": [
+            {
+                "productId": 1,
+                "quantity": 1
+            },
+            {
+                "productId": 7,
+                "quantity": 2
+            }
+        ],
+        "createdAt": "2026-04-18T16:05:00Z"
+    },
+    {
+        "customerId": "CUST-107",
+        "balance": 15.20,
+        "cart": [
+            {
+                "productId": 9,
+                "quantity": 10
+            }
+        ],
+        "createdAt": "2026-05-12T07:50:00Z"
+    },
+    {
+        "customerId": "CUST-108",
+        "balance": 12000.00,
+        "cart": [],
+        "createdAt": "2026-05-29T21:10:00Z"
+    },
+    {
+        "customerId": "CUST-109",
+        "balance": 340.50,
+        "cart": [
+            {
+                "productId": 4,
+                "quantity": 1
+            },
+            {
+                "productId": 11,
+                "quantity": 1
+            }
+        ],
+        "createdAt": "2026-06-14T13:30:00Z"
+    },
+    {
+        "customerId": "CUST-110",
+        "balance": 75.00,
+        "cart": [
+            {
+                "productId": 2,
+                "quantity": 1
+            }
+        ],
+        "createdAt": "2026-07-02T10:00:00Z"
+    }
+]
