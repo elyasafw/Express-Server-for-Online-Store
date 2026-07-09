@@ -24,12 +24,8 @@ export async function writeData(fileName, data) {
 export async function getCustomerById(id) {
     const allCustomers = await readData(CUSTOMERS);
     const customer = allCustomers.find((cust) => cust.customerId === id);
-    if (customer.length === 0) {
-        const message = {
-            success: false,
-            message: `Customer ID: ${id} Not Found`,
-        };
-        throw new HttpError(JSON.stringify(message, null, 2), 404);
+    if (!customer) {
+        throw new HttpError(`Customer ID: ${id} Not Found`, 404);
     }
     return customer;
 }
@@ -38,11 +34,7 @@ export async function getProductById(id) {
     const allProducts = await readData(PRODUCTS);
     const product = allProducts.find((prod) => prod.id === Number(id));
     if (!product) {
-        const message = {
-            success: false,
-            message: `Product ID: ${id} Not Found`,
-        };
-        throw new HttpError(JSON.stringify(message, null, 2), 404);
+        throw new HttpError(`Product ID: ${id} Not Found`, 404);
     }
     return product;
 }

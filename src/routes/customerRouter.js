@@ -3,6 +3,7 @@ import {
     getCustomerCart,
     getCustomerBalance,
     addProductToCart,
+    deleteProductFromCart,
 } from "../../services/storeService.js";
 import { getProductById } from "../../utils/dataHandling.js";
 import { checkCartBody } from "../../utils/validator.js";
@@ -25,7 +26,10 @@ customersRoute.get("/cart", async (req, res) => {
 customersRoute.get("/account/balance", async (req, res) => {
     try {
         const customerBalance = await getCustomerBalance(req.query);
-        res.status(200).json({ success: customerBalance });
+        res.status(200).json({
+            success: true,
+            data: `Customer balance: ${customerBalance}`,
+        });
     } catch (error) {
         return res.status(error.status || 500).json({
             success: false,
@@ -59,7 +63,7 @@ customersRoute.post("/cart/items", async (req, res) => {
         await addProductToCart(req.body);
         res.status(201).json({
             success: true,
-            message: `Product ID: ${product.productId} added to cart.`,
+            data: `Product ID: ${product.productId} added to cart.`,
         });
     } catch (error) {
         return res.status(error.status || 500).json({
@@ -68,3 +72,31 @@ customersRoute.post("/cart/items", async (req, res) => {
         });
     }
 });
+
+customersRoute.delete("/cart/items/:productId", handleCartDelete);
+customersRoute.delete("/cart/items", handleCartDelete);
+async function handleCartDelete(req, res) {
+    try {
+        const isBodyMissing =
+            !req.body ||
+            Object.keys(req.body).length === 0 ||
+            !req.body.customerId;
+        if (isBodyMissing || !req.params.productId) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "The request body must contain a customer ID & the path parameter must contain a product ID.",
+            });
+        }
+        await deleteProductFromCart(req.body, req.params);
+        res.status(200).json({
+            success: true,
+            data: `Item ID: ${req.params.productId} was removed from the cart.`,
+        });
+    } catch (error) {
+        return res.status(error.status || 500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+}
