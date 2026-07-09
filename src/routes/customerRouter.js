@@ -6,7 +6,6 @@ import {
 } from "../../services/storeService.js";
 import { getProductById } from "../../utils/dataHandling.js";
 import { checkCartBody } from "../../utils/validator.js";
-import HttpError from "../../utils/httpError.js";
 import e from "express";
 
 export const customersRoute = express.Router();
@@ -16,9 +15,10 @@ customersRoute.get("/cart", async (req, res) => {
         const customerCart = await getCustomerCart(req.query);
         res.status(200).json({ success: true, data: customerCart });
     } catch (error) {
-        res.status(error.status || 500).send(
-            error.status ? error.message : "Server Internal Error",
-        );
+        return res.status(error.status || 500).json({
+            success: false,
+            message: error.message,
+        });
     }
 });
 
@@ -27,9 +27,10 @@ customersRoute.get("/account/balance", async (req, res) => {
         const customerBalance = await getCustomerBalance(req.query);
         res.status(200).json({ success: customerBalance });
     } catch (error) {
-        res.status(error.status || 500).send(
-            error.status ? error.message : "Server Internal Error",
-        );
+        return res.status(error.status || 500).json({
+            success: false,
+            message: error.message,
+        });
     }
 });
 
@@ -52,8 +53,7 @@ customersRoute.post("/cart/items", async (req, res) => {
         if (Number(req.body.quantity) <= 0) {
             return res.status(400).send({
                 success: false,
-                message:
-                    "The quantity amount most be bigger then 0.",
+                message: "The quantity amount most be bigger then 0.",
             });
         }
         await addProductToCart(req.body);
@@ -62,8 +62,9 @@ customersRoute.post("/cart/items", async (req, res) => {
             message: `Product ID: ${product.productId} added to cart.`,
         });
     } catch (error) {
-        res.status(error.status || 500).send(
-            error.status ? error.message : error.message,
-        );
+        return res.status(error.status || 500).json({
+            success: false,
+            message: error.message,
+        });
     }
 });

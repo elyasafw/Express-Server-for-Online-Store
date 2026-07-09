@@ -18,8 +18,10 @@ app.get("/", (req, res) => {
     try {
         res.json({ message: "Welcome to the store server's home page." });
     } catch (error) {
-        res.statusCode = 500;
-        res.end(JSON.stringify({ error: error.message }));
+        return res.status(error.status || 500).json({
+            success: false,
+            message: error.message,
+        });
     }
 });
 
@@ -32,8 +34,10 @@ app.get("/health", (req, res) => {
         };
         res.end(JSON.stringify(healthReport, null, 2));
     } catch (error) {
-        res.statusCode = 500;
-        res.end(JSON.stringify({ status: "DOWN", error: error.message }));
+        return res.status(error.status || 500).json({
+            success: "DOWN",
+            message: error.message,
+        });
     }
 });
 

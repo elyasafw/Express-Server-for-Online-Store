@@ -7,7 +7,6 @@ import {
     CUSTOMERS,
     ORDERS,
 } from "../utils/dataHandling.js";
-import HttpError from "../utils/httpError.js";
 
 export async function getFilteredProducts(query) {
     const allProducts = await readData(PRODUCTS);

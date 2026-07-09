@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import env from "dotenv";
 import { futimes } from "fs";
-import HttpError from "../utils/httpError.js"
+import HttpError from "../utils/httpError.js";
 
 env.config();
 const BASE_PATH = process.env.DB_BASE_PATH;
@@ -23,11 +23,13 @@ export async function writeData(fileName, data) {
 
 export async function getCustomerById(id) {
     const allCustomers = await readData(CUSTOMERS);
-    const customer = allCustomers.find(
-        (cust) => cust.customerId === id,
-    );
+    const customer = allCustomers.find((cust) => cust.customerId === id);
     if (customer.length === 0) {
-        throw new HttpError(`Customer ID: ${id} Not Found`, 404);
+        const message = {
+            success: false,
+            message: `Customer ID: ${id} Not Found`,
+        };
+        throw new HttpError(JSON.stringify(message, null, 2), 404);
     }
     return customer;
 }
@@ -35,8 +37,12 @@ export async function getCustomerById(id) {
 export async function getProductById(id) {
     const allProducts = await readData(PRODUCTS);
     const product = allProducts.find((prod) => prod.id === Number(id));
-    if (product.length === 0) {
-        throw new HttpError(`Product ID: ${id} Not Found`, 404);
+    if (!product) {
+        const message = {
+            success: false,
+            message: `Product ID: ${id} Not Found`,
+        };
+        throw new HttpError(JSON.stringify(message, null, 2), 404);
     }
     return product;
 }
