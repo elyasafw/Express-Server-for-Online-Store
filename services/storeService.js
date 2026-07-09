@@ -2,6 +2,7 @@ import {
     readData,
     writeData,
     getCustomerById,
+    getProductById,
     PRODUCTS,
     CUSTOMERS,
     ORDERS,
@@ -46,4 +47,19 @@ export async function getOrdHistory(query) {
         (order) => order.customerId === customerId,
     );
     return custOrders;
+}
+
+export async function addProductToCart(body) {
+    const customer = await getCustomerById(body.customerId);
+    const allCustomers = await readData(CUSTOMERS);
+    for (const cust of allCustomers) {
+        if (cust.customerId === customer.customerId) {
+            cust.cart.push({
+                productId: body.productId,
+                quantity: body.quantity,
+            });
+            await writeData(CUSTOMERS, JSON.stringify(allCustomers, null, 4));
+            break;
+        }
+    }
 }
