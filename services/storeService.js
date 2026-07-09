@@ -1,9 +1,12 @@
-import { readData, writeData } from "../utils/dataHandling.js";
+import {
+    readData,
+    writeData,
+    getCustomerById,
+    PRODUCTS,
+    CUSTOMERS,
+    ORDERS,
+} from "../utils/dataHandling.js";
 import HttpError from "../utils/httpError.js";
-
-const PRODUCTS = "products.json";
-const ORDERS = "orders.json";
-const CUSTOMERS = "customers.json";
 
 export async function getFilteredProducts(query) {
     const allProducts = await readData(PRODUCTS);
@@ -25,20 +28,22 @@ export async function getFilteredProducts(query) {
 
 export async function getCustomerCart(query) {
     const customerId = query.customerId;
-    const allCustomers = await readData(CUSTOMERS);
-    const customer = allCustomers.find((cust) => cust.customerId == customerId);
-    if (!customer) {
-        throw new HttpError(`Customer ID: ${customerId} Not Found`, 404);
-    }
+    const customer = getCustomerById(customerId);
     return customer.cart;
 }
 
 export async function getCustomerBalance(query) {
     const customerId = query.customerId;
-    const allCustomers = await readData(CUSTOMERS);
-    const customer = allCustomers.find((cust) => cust.customerId == customerId);
-    if (!customer) {
-        throw new HttpError(`Customer ID: ${customerId} Not Found`, 404);
-    }
+    const customer = getCustomerById(customerId);
     return customer.balance;
+}
+
+export async function getOrdHistory(query) {
+    const customerId = query.customerId;
+    const customer = getCustomerById(customerId);
+    const allOrders = await readData(ORDERS);
+    const custOrders = allOrders.find(
+        (order) => order.customerId === customerId,
+    );
+    return custOrders;
 }

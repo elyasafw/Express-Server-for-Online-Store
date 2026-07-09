@@ -5,6 +5,10 @@ import { futimes } from "fs";
 env.config();
 const BASE_PATH = process.env.DB_BASE_PATH;
 
+export const PRODUCTS = "products.json";
+export const ORDERS = "orders.json";
+export const CUSTOMERS = "customers.json";
+
 export async function readData(fileName) {
     const fullPath = `${BASE_PATH}/${fileName}`;
     const data = await fs.readFile(fullPath, "utf8");
@@ -14,4 +18,13 @@ export async function readData(fileName) {
 export async function writeData(fileName, data) {
     const fullPath = `${BASE_PATH}/${fileName}`;
     await fs.writeFile(fullPath, data, "utf8");
+}
+
+export async function getCustomerById(id) {
+    const allCustomers = await readData(CUSTOMERS);
+    const customer = allCustomers.find((cust) => cust.customerId === id);
+    if (!customer) {
+        throw new HttpError(`Customer ID: ${customerId} Not Found`, 404);
+    }
+    return customer;
 }
