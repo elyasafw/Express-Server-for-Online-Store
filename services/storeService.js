@@ -32,3 +32,13 @@ export async function getCustomerCart(query) {
     }
     return customer.cart;
 }
+
+export async function getCustomerBalance(query) {
+    const customerId = query.customerId;
+    const allCustomers = await readData(CUSTOMERS);
+    const customer = allCustomers.find((cust) => cust.customerId == customerId);
+    if (!customer) {
+        throw new HttpError(`Customer ID: ${customerId} Not Found`, 404);
+    }
+    return customer.balance;
+}
