@@ -30,5 +30,5 @@ export async function getCustomerCart(query) {
     if (!customer) {
         throw new HttpError(`Customer ID: ${customerId} Not Found`, 404);
     }
-    return customer;
+    return customer.cart;
 }
