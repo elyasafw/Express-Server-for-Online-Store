@@ -13,6 +13,15 @@ app.use((req, res, next) => {
 
 app.get("/", (req, res) => {
     try {
+        res.json({ message: "Welcome to the store server's home page." });
+    } catch (error) {
+        res.statusCode = 500;
+        res.end(JSON.stringify({ error: error.message }));
+    }
+});
+
+app.get("/health", (req, res) => {
+    try {
         const healthReport = {
             status: "UP",
             message: "Shop Server is healthy and running",
