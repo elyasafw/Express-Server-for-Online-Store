@@ -6,8 +6,11 @@ const ORDERS = "orders.json";
 const CUSTOMERS = "customers.json";
 
 export async function getFilteredProducts(query) {
-    const { inStock, maxPrice, search } = query;
     const allProducts = await readData(PRODUCTS);
+    if (!query) {
+        return allProducts;
+    }
+    const { inStock, maxPrice, search } = query;
     const filtered = allProducts.filter((product) => {
         const searchLower = search ? search.toLowerCase() : "";
         return [
