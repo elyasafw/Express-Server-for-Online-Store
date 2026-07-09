@@ -38,3 +38,17 @@ export async function getProductById(id) {
     }
     return product;
 }
+
+export async function createNewCustomer(customerId) {
+    const allCustomers = await readData(CUSTOMERS);
+    const initialBalance = Number(process.env.INITIAL_BALANCE) || 1000;
+    const customer = {
+        customerId: customerId,
+        balance: initialBalance,
+        cart: [],
+        createdAt: new Date().toISOString(),
+    };
+    allCustomers.push(customer);
+    await writeData(CUSTOMERS, JSON.stringify(allCustomers, null, 4));
+    return customer;
+}

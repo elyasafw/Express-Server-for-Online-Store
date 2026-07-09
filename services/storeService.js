@@ -87,3 +87,82 @@ export async function deleteProductFromCart(body, param) {
     }
     await writeData(CUSTOMERS, JSON.stringify(allCustomers, null, 4));
 }
+
+function calculateCartTotal(cart, allProducts) {
+    let orderTotal = 0;
+    const itemsToBuy = [];
+
+    for (const cartItem of cart) {
+        const product = allProducts.find((p) => p.id === cartItem.productId);
+        orderTotal += cartItem.quantity * product.price;
+
+        itemsToBuy.push({
+            productId: product.id,
+            quantity: cartItem.quantity,
+            price: product.price,
+        });
+    }
+
+    return { orderTotal, itemsToBuy };
+}
+
+function updateInventoryAndBalance(customer, allProducts, orderTotal) {
+    for (const cartItem of customer.cart) {
+        const product = allProducts.find((p) => p.id === cartItem.productId);
+        product.stock -= cartItem.quantity;
+    }
+    customer.balance -= orderTotal;
+    customer.cart = [];
+}
+
+function createOrderObject(customerId, itemsToBuy, orderTotal, allOrders) {
+    let nextId = 100;
+    if (allOrders.length > 0) {
+        const lastOrder = allOrders[allOrders.length - 1];
+        nextId = Number(lastOrder.id) + 1;
+    }
+    return {
+        id: nextId,
+        customerId: customerId,
+        items: itemsToBuy,
+        total: orderTotal,
+        createdAt: new Date().toISOString(),
+    };
+}
+
+export async function checkoutCart(body) {
+    const { customerId } = body;
+    const allCustomers = await readData(CUSTOMERS);
+    const allProducts = await readData(PRODUCTS);
+    const allOrders = (await readData(ORDERS)) || [];
+    let customer = allCustomers.find((c) => c.customerId === customerId);
+    if (!customer) {
+        customer = await createNewCustomer(allCustomers, customerId);
+    }
+    if (!customer.cart || customer.cart.length === 0) {
+        throw new HttpError("Checkout rejected: Your cart is empty.", 400);
+    }
+    validateCartStock(customer.cart, allProducts);
+    const { orderTotal, itemsToBuy } = calculateCartTotal(
+        customer.cart,
+        allProducts,
+    );
+    if (customer.balance < orderTotal) {
+        throw new HttpError(
+            `Insufficient funds. Total: ${orderTotal}, Balance: ${customer.balance}`,
+            400,
+        );
+    }
+    updateInventoryAndBalance(customer, allProducts, orderTotal);
+    const newOrder = createOrderObject(
+        customer.customerId,
+        itemsToBuy,
+        orderTotal,
+        allOrders,
+    );
+    allOrders.push(newOrder);
+    await writeData(CUSTOMERS, allCustomers);
+    await writeData(PRODUCTS, allProducts);
+    await writeData(ORDERS, allOrders);
+    return newOrder;
+}
