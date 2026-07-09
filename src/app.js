@@ -2,6 +2,7 @@ import express from "express";
 import env from "dotenv";
 import { customersRoute } from "./routes/customerRouter.js";
 import e from "express";
+import { ordersRoute } from "./routes/orderRouter.js";
 
 const app = express();
 app.use(express.json());
@@ -37,6 +38,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/customers", customersRoute);
+app.use("/orders", ordersRoute);
 
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT} ...`);
